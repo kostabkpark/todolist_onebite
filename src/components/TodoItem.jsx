@@ -1,4 +1,6 @@
 import "./TodoItem.css";
+import { memo } from "react";
+
 
 const TodoItem = ({
   id,
@@ -16,6 +18,7 @@ const TodoItem = ({
     onDelete(id);
   };
 
+  console.log("아이템이 다시 계산되어 렌더링 됨 =====> ");
   return (
     <div className="TodoItem">
       <input
@@ -33,4 +36,11 @@ const TodoItem = ({
   );
 };
 
-export default TodoItem;
+export default memo(TodoItem, (prev, curr) => {
+    if(prev.id != curr.id) return false;
+    if(prev.isDone != curr.isDone) return false;
+    if(prev.content != curr.content) return false;
+    if(prev.date != curr.date) return false;
+
+    return true;
+  } );
